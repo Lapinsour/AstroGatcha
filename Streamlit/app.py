@@ -25,6 +25,12 @@ def render_card(card):
         unsafe_allow_html=True
     )
 
+cols = st.columns(3)
+
+for i, card in enumerate(cards):
+    with cols[i % 3]:
+        render_card(card)
+
 if st.button("🎴 Pull card"):
     r = requests.get(f"{API_URL}/pull", timeout=30)
     card = r.json()["result"]
