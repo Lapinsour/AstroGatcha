@@ -13,7 +13,7 @@ colors = {
     "legendary": "#FBBF24"
 }
 
-color = colors.get(card["rarity"], "#ffffff")
+
 
 def render_card(card):
     st.markdown(
@@ -45,6 +45,8 @@ if st.button("🎴 Pull card"):
     st.image(card["image_url"])
     st.write(card["title"])
     st.write(card["description"])
+
+    color = colors.get(card["rarity"], "#ffffff")
     st.markdown(
     f"""
     <div style="
