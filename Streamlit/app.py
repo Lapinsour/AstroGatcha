@@ -7,7 +7,7 @@ API_URL = "https://astrogatcha.onrender.com"
 st.title("🚀 NASA Gacha")
 
 if st.button("Pull card"):
-    r = requests.get(f"{API_URL}/pull", timeout=30) 
+    r = requests.get(f"{API_URL}/pull", timeout=90) 
     card = r.json()["result"]
 
     st.image(card["image_url"])
