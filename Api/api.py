@@ -5,7 +5,7 @@ import os
 
 app = FastAPI()
 
-
+CARDS = []
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FILE_PATH = os.path.join(BASE_DIR, "cards_nasa.json")
 with open(FILE_PATH, "r", encoding="utf-8") as f:
