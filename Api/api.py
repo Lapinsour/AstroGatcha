@@ -1,3 +1,21 @@
+import json
+import random
+from fastapi import FastAPI
+
+app = FastAPI()
+
+with open("cards.json") as f:
+    CARDS = json.load(f)
+
+@app.get("/pull")
+def pull_card():
+    if not CARDS:
+        return {"error": "No cards"}
+
+    return {"result": random.choice(CARDS)}
+
+
+'''
 import os
 from fastapi import FastAPI
 from pymongo import MongoClient
@@ -34,3 +52,4 @@ def pull_card():
     result.pop("_id", None)
 
     return {"result": result}
+    '''
