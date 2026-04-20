@@ -20,14 +20,16 @@ def get_cards():
 # -------------------------
 # GACHA PULL
 # -------------------------
+
+
 @app.get("/pull")
 def pull_card():
-    cards = list(db.cards.find({}, {"_id": 0}))
+    count = db.cards.count_documents({})
 
-    if not cards:
+    if count == 0:
         return {"error": "No cards found"}
 
-    card = random.choice(cards)
-    return {
-        "result": card
-    }
+    random_index = random.randint(0, count - 1)
+    card = db.cards.find().skip(random_index).limit(1)[0]
+
+    return {"result": card}
