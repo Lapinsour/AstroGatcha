@@ -28,6 +28,7 @@ def render_card(card):
 if st.button("🎴 Pull card"):
     r = requests.get(f"{API_URL}/pull", timeout=30)
     card = r.json()["result"]
+    st.write(r.text)
     st.image(card["image_url"])
     st.write(card["title"])
     st.image(card["description"])
