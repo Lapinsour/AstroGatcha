@@ -5,7 +5,7 @@ import html
 
 API_URL = "https://astrogatcha.onrender.com"
 
-st.title("🌌 Clique pour explorer les étoiles")
+
 
 colors = {
     "common": "#9aa0a6",
