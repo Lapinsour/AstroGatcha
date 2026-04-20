@@ -37,7 +37,10 @@ def render_card(card):
         unsafe_allow_html=True
     )
     
-
+    st.header(card["power"], text_alignment="right")    
+    st.image(card["image_url"], 100)
+    st.subheader(card["title"], text_alignment="center")
+    st.write(card["description"][:200])
 
 if st.button("🎴 Pull card"):
     r = requests.get(f"{API_URL}/pull", timeout=30)
