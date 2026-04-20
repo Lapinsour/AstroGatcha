@@ -17,7 +17,7 @@ colors = {
 
 
 def render_card(card):  
-        
+    rarity = card.get("rarity", "common")        
     border = colors.get(rarity, "#444")
     color = colors.get(rarity, "#ffffff")
     
