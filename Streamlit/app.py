@@ -44,8 +44,8 @@ def render_card(card):
     st.markdown(
         f"""
         <div style="
-            border: 4px solid {color};
-            border-radius: 15px;
+            border: 3px solid {color};
+            border-radius: 12px;
             padding: 3px;
             box-shadow: {shadow_strength} {color};
             height: 380px;
