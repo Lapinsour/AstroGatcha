@@ -42,15 +42,15 @@ def render_card(card):
     st.markdown(
         f"""
         <div style="
-            border: 3px solid {color};
+            border: 4px solid {color};
             border-radius: 12px;
             padding: 3px;
-            box-shadow: 0 0 12px {color};
+            box-shadow: 0 0 15px {color};
             display: inline-block;
         ">
             <img src="{card.get('image_url','')}"
                  style="
-                    width:100%;
+                    width:50%;
                     height:auto;
                     border-radius:10px;
                     display:block;
@@ -59,7 +59,7 @@ def render_card(card):
         """,
         unsafe_allow_html=True
     )
-    #st.image(card["image_url"], 100)
+    
     st.subheader(card["title"], text_alignment="center")
     st.write(card["description"][:200])
 
