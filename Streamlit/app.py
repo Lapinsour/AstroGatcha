@@ -24,6 +24,9 @@ def render_card(card):
     title = clean_text(card.get("title", ""))
     desc = clean_text(card.get("description", ""))[:200]
     rarity = card.get("rarity", "common")
+
+    img_url = card.get("image_url", "")
+
     border = colors.get(rarity, "#444")
     color = colors.get(rarity, "#ffffff")
 
@@ -46,7 +49,7 @@ def render_card(card):
                 {title}
             </h4>
 
-            <img src="{card['image_url']}"
+            <img src="{img_url}"
                  style="width:100%; height:180px; object-fit:cover; border-radius:10px;">
 
             <p style="
