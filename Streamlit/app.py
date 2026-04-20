@@ -29,11 +29,13 @@ def render_card(card):
 
     border = colors.get(rarity, "#444")
     color = colors.get(rarity, "#ffffff")
-
+    
+    st.badge(card.get("rarity", "common"))
+    st.write(f"⚔ Power: {card.get('power', 'N/A')}")
     st.image(card["image_url"], use_container_width=True)
     st.subheader(card["title"])
     st.write(card["description"][:200])
-    st.badge(card.get("rarity", "common"))
+    
 
 
 if st.button("🎴 Pull card"):
@@ -42,4 +44,4 @@ if st.button("🎴 Pull card"):
 
     render_card(card)
 
-    st.write(f"⚔ Power: {card.get('power', 'N/A')}")
+    
