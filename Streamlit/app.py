@@ -6,6 +6,15 @@ API_URL = "https://astrogatcha.onrender.com"
 
 st.title("Clique putain je t'emmène voir les étoiles...")
 
+colors = {
+    "common": "#9aa0a6",
+    "rare": "#4F8BF9",
+    "epic": "#A855F7",
+    "legendary": "#FBBF24"
+}
+
+color = colors.get(card["rarity"], "#ffffff")
+
 def render_card(card):
     st.markdown(
         f"""
@@ -36,6 +45,20 @@ if st.button("🎴 Pull card"):
     st.image(card["image_url"])
     st.write(card["title"])
     st.write(card["description"])
-    st.markdown(''':blue-background[{card["rarity"]}] ''',text_alignment="right")
+    st.markdown(
+    f"""
+    <div style="
+        text-align:right;
+        background-color:{color};
+        color:black;
+        padding:5px 10px;
+        border-radius:8px;
+        display:inline-block;
+    ">
+        {card['rarity']}
+    </div>
+    """,
+    unsafe_allow_html=True
+)
    
     st.write(card["power"])
