@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import os
 
-API_URL = os.getenv("API_URL", "http://api:8000")
+API_URL = "https://astrogatcha.onrender.com"
 
 st.title("🚀 NASA Gacha")
 
