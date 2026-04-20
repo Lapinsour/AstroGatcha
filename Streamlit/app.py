@@ -30,5 +30,6 @@ if st.button("🎴 Pull card"):
     card = r.json()["result"]
     st.image(card["image_url"])
     st.write(card["title"])
+    st.image(card["description"])
     st.write(card["rarity"])
     st.write(card["power"])
