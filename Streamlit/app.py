@@ -43,16 +43,17 @@ def render_card(card):
         f"""
         <div style="
             border: 4px solid {color};
-            border-radius: 12px;
+            border-radius: 15px;
             padding: 3px;
-            box-shadow: 0 0 15px {color};
-            display: inline-block;
+            box-shadow: 0 0 10px {color};
+            overflow: hidden;
         ">
             <img src="{card.get('image_url','')}"
                  style="
-                    width:50%;
-                    height:auto;
-                    border-radius:10px;
+                    width:100%;
+                    height:180px;
+                    object-fit: cover;
+                    border-radius: 10px;
                     display:block;
                  ">
         </div>
