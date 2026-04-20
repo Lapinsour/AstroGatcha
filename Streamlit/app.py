@@ -47,7 +47,7 @@ def render_card(card):
             padding: 3px;
             box-shadow: 0 0 10px {color};
             overflow: hidden;
-            height: 380px;
+            
 
         ">
             <img src="{card.get('image_url','')}"
