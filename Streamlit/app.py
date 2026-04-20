@@ -14,11 +14,7 @@ colors = {
     "legendary": "#FBBF24"
 }
 
-def clean_text(text):
-    if not text:
-        return ""
-    text = re.sub(r"\s+", " ", str(text))  # espaces / retours ligne
-    return html.escape(text.strip())       # sécurité HTML
+
 
 def render_card(card):
     title = clean_text(card.get("title", ""))
@@ -33,7 +29,7 @@ def render_card(card):
     st.badge(card.get("rarity", "common"))
     st.header(card["power"], text_alignment="right")
     
-    st.image(card["image_url"], use_container_width=True)
+    st.image(card["image_url"], 100)
     st.subheader(card["title"], text_alignment="center")
     st.write(card["description"][:200])
     
