@@ -8,6 +8,8 @@ st.title("🚀 NASA Gacha")
 
 if st.button("Pull card"):
     r = requests.get(f"{API_URL}/pull", timeout=90) 
+    st.write(r.status_code)
+    st.write(r.text)
     card = r.json()["result"]
 
     st.image(card["image_url"])
