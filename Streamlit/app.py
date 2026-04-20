@@ -37,8 +37,29 @@ def render_card(card):
         unsafe_allow_html=True
     )
     
-    st.header(card["power"], text_alignment="right")    
-    st.image(card["image_url"], 100)
+    st.header(card["power"], text_alignment="right")  
+
+    st.markdown(
+        f"""
+        <div style="
+            border: 3px solid {color};
+            border-radius: 12px;
+            padding: 3px;
+            box-shadow: 0 0 12px {color};
+            display: inline-block;
+        ">
+            <img src="{card.get('image_url','')}"
+                 style="
+                    width:100%;
+                    height:auto;
+                    border-radius:10px;
+                    display:block;
+                 ">
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    #st.image(card["image_url"], 100)
     st.subheader(card["title"], text_alignment="center")
     st.write(card["description"][:200])
 
