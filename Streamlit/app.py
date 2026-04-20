@@ -76,7 +76,8 @@ if st.button("🎴 Pull card"):
 )
     st.header(card["power"], text_alignment="right")
     st.image(card["image_url"])
-    st.write(card["title"])
+    st.subheader(card["title"],width="stretch", text_alignment="center")
+    
     st.write(card["description"])
     
     
