@@ -4,7 +4,7 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-with open("cards.json") as f:
+with open("cards_nasa.json") as f:
     CARDS = json.load(f)
 
 @app.get("/pull")
