@@ -14,10 +14,12 @@ colors = {
     "legendary": "#FBBF24"
 }
 
+
 def render_card(card):  
     rarity = card.get("rarity", "common")        
     border = colors.get(rarity, "#444")
     color = colors.get(rarity, "#ffffff")
+    shadow_strength = "0 0 20px" if rarity in ["epic", "legendary"] else "0 0 10px"
 
     # badge rarity
     st.markdown(
@@ -45,14 +47,14 @@ def render_card(card):
             border: 4px solid {color};
             border-radius: 15px;
             padding: 3px;
-            box-shadow: 0 0 10px {color};
+            box-shadow: {shadow_strength} {color};
             height: 380px;
             overflow: hidden;         
         ">
             <img src="{card.get('image_url','')}"
                  style="
                     width:100%;
-                    height:250px;
+                    height:auto;
                     object-fit: cover;
                     border-radius: 10px;
                     display:block;
