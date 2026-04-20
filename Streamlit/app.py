@@ -58,9 +58,9 @@ if st.button("🎴 Pull card"):
     """,
     unsafe_allow_html=True
 )
-
+    st.header(card["power"], text_alignment="right")
     st.image(card["image_url"])
     st.write(card["title"])
     st.write(card["description"])
     
-    st.header(card["power"], text_alignment="right")
+    
