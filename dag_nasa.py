@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
-
+import random
 import requests
 import pandas as pd
 from pymongo import MongoClient
@@ -21,9 +21,42 @@ IMAGE_SIZE = (256, 256)
 # =========================
 
 def extract(**context):
-    response = requests.get(NASA_URL)
-    data = response.json()
-    context["ti"].xcom_push(key="raw_data", value=data)
+    base_url = "https://images-api.nasa.gov/search"
+    params = {
+        "q": "galaxy",
+        "media_type": "image"
+    }
+
+    all_items = []
+    url = base_url
+
+    for _ in range(10):  # ~100 pages max selon API (sécurité)
+        response = requests.get(url, params=params if url == base_url else None)
+        data = response.json()
+
+        items = data["collection"]["items"]
+        all_items.extend(items)
+
+        # pagination
+        links = data["collection"].get("links", [])
+        next_link = None
+
+        for l in links:
+            if l.get("rel") == "next":
+                next_link = l.get("href")
+
+        if not next_link:
+            break
+
+        url = next_link
+        params = None  # déjà inclus dans next_link
+
+        # stop à 1000 éléments
+        if len(all_items) >= 1000:
+            all_items = all_items[:1000]
+            break
+
+    context["ti"].xcom_push(key="raw_data", value={"collection": {"items": all_items}})
 
 
 def transform(**context):
@@ -45,6 +78,8 @@ def transform(**context):
     df = df[['href', 'title', 'description', 'date_created', 'keywords']]
 
     ti.xcom_push(key="df", value=df.to_json())
+
+
 
 
 
@@ -75,21 +110,79 @@ def download_images(**context):
     ti.xcom_push(key="df_final", value=df.to_json())
 
 
-def load_to_mongo(**context):
+def assign_rarity():
+    r = random.random()
+    if r < 0.6:
+        return "common"
+    elif r < 0.85:
+        return "rare"
+    elif r < 0.97:
+        return "epic"
+    else:
+        return "legendary"
+
+
+RARITY_POWER = {
+    "common": 10,
+    "rare": 25,
+    "epic": 50,
+    "legendary": 100
+}
+
+
+def build_cards_dataset(**context):
     ti = context["ti"]
 
     df_json = ti.xcom_pull(task_ids="download_images", key="df_final")
 
     if df_json is None:
-        raise ValueError("XCom df_final est vide (download_images n'a rien poussé ou pull incorrect)")
+        raise ValueError("XCom df_final est vide")
+
+    df = pd.read_json(df_json)
+
+    # -------------------------
+    # CARD TRANSFORMATION
+    # -------------------------
+
+    df = df.dropna(subset=["href", "title"])
+
+    df["id"] = df.index.astype(str)
+    df["image_url"] = df["href"]
+
+    df["rarity"] = df["title"].apply(lambda x: assign_rarity())
+    df["power"] = df["rarity"].map(RARITY_POWER)
+
+    df["card_type"] = "nasa_image"
+
+    cards_df = df[[
+        "id",
+        "title",
+        "description",
+        "image_url",
+        "rarity",
+        "power",
+        "card_type"
+    ]]
+
+    ti.xcom_push(key="cards_df", value=cards_df.to_json())
+
+
+def load_to_mongo(**context):
+    ti = context["ti"]
+
+    df_json = ti.xcom_pull(task_ids="build_cards", key="cards_df")
+
+    if df_json is None:
+        raise ValueError("XCom cards_df est vide")
 
     df = pd.read_json(df_json)
 
     client = MongoClient(MONGO_URI)
     db = client[DB_NAME]
-    collection = db[COLLECTION_NAME]
+    collection = db["cards"]   # 👈 nouvelle collection
 
     records = df.to_dict(orient="records")
+
     collection.insert_many(records)
 
 
@@ -124,9 +217,14 @@ with DAG(
         python_callable=download_images
     )
 
+    t_cards = PythonOperator(
+        task_id="build_cards",
+        python_callable=build_cards_dataset
+    )
+
     t_mongo = PythonOperator(
         task_id="load_mongo",
         python_callable=load_to_mongo
     )
 
-    t_extract >> t_transform >> t_images >> t_mongo
+    t_extract >> t_transform >> t_images >> t_cards >> t_mongo
