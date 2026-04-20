@@ -1,10 +1,9 @@
 import streamlit as st
 import requests
-import os
 
 API_URL = "https://astrogatcha.onrender.com"
 
-st.title("Clique putain je t'emmène voir les étoiles...")
+st.title("🌌 Clique pour explorer les étoiles")
 
 colors = {
     "common": "#9aa0a6",
@@ -13,9 +12,11 @@ colors = {
     "legendary": "#FBBF24"
 }
 
-
-
 def render_card(card):
+    rarity = card.get("rarity", "common")
+    border = colors.get(rarity, "#444")
+    color = colors.get(rarity, "#ffffff")
+
     st.markdown(
         f"""
         <div style="
@@ -48,38 +49,28 @@ def render_card(card):
             ">
                 {card.get('description','')[:200]}
             </p>
+
+            <div style="
+                text-align:right;
+                background-color:{color};
+                color:black;
+                padding:5px 10px;
+                border-radius:8px;
+                display:inline-block;
+                margin-top:5px;
+            ">
+                {rarity}
+            </div>
         </div>
         """,
         unsafe_allow_html=True
     )
 
 
-
 if st.button("🎴 Pull card"):
     r = requests.get(f"{API_URL}/pull", timeout=30)
-    card = r.json()["result"]  
-    
-    color = colors.get(card["rarity"], "#ffffff")
-    border = colors.get(card.get("rarity"), "#444")
-    st.markdown(
-    f"""
-    <div style="
-        text-align:right;
-        background-color:{color};
-        color:black;
-        padding:5px 10px;
-        border-radius:8px;
-        display:inline-block;
-    ">
-        {card['rarity']}
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-    st.header(card["power"], text_alignment="right")
-    st.image(card["image_url"])
-    st.subheader(card["title"],width="stretch", text_alignment="center")
-    
-    st.write(card["description"])
-    
-    
+    card = r.json()["result"]
+
+    render_card(card)
+
+    st.write(f"⚔ Power: {card.get('power', 'N/A')}")
