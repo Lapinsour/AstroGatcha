@@ -10,10 +10,10 @@ def render_card(card):
     st.markdown(
         f"""
         <div style="
-            border-radius: 15px;
-            padding: 15px;
+            border-radius: 150px;
+            padding: 150px;
             background: linear-gradient(145deg, #1e1e2f, #2a2a40);
-            box-shadow: 0px 4px 12px rgba(0,0,0,0.4);
+            box-shadow: 0px 4px 50px rgba(0,0,0,0.4);
             margin-bottom: 20px;
             color: white;
         ">
@@ -27,9 +27,7 @@ def render_card(card):
 
 cols = st.columns(3)
 
-for i, card in enumerate(cards):
-    with cols[i % 3]:
-        render_card(card)
+
 
 if st.button("🎴 Pull card"):
     r = requests.get(f"{API_URL}/pull", timeout=30)
