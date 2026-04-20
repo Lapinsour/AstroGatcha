@@ -36,6 +36,6 @@ if st.button("🎴 Pull card"):
     st.image(card["image_url"])
     st.write(card["title"])
     st.write(card["description"])
-    st.markdown(''':blue-background[{card["rarity"]}] ''')
+    st.markdown(''':blue-background[{card["rarity"]}] ''',text_alignment="right")
    
     st.write(card["power"])
