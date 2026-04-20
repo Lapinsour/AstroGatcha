@@ -47,11 +47,13 @@ def render_card(card):
             padding: 3px;
             box-shadow: 0 0 10px {color};
             overflow: hidden;
+            height: 380px;
+
         ">
             <img src="{card.get('image_url','')}"
                  style="
                     width:100%;
-                    height:180px;
+                    height:250px;
                     object-fit: cover;
                     border-radius: 10px;
                     display:block;
