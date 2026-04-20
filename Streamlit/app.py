@@ -1,5 +1,7 @@
 import streamlit as st
 import requests
+import re
+import html
 
 API_URL = "https://astrogatcha.onrender.com"
 
@@ -12,7 +14,15 @@ colors = {
     "legendary": "#FBBF24"
 }
 
+def clean_text(text):
+    if not text:
+        return ""
+    text = re.sub(r"\s+", " ", str(text))  # espaces / retours ligne
+    return html.escape(text.strip())       # sécurité HTML
+
 def render_card(card):
+    title = clean_text(card.get("title", ""))
+    desc = clean_text(card.get("description", ""))[:200]
     rarity = card.get("rarity", "common")
     border = colors.get(rarity, "#444")
     color = colors.get(rarity, "#ffffff")
@@ -33,7 +43,7 @@ def render_card(card):
             border: 2px solid {border};
         ">
             <h4 style="text-align:center; margin:5px 0;">
-                {card.get('title','')}
+                {title}
             </h4>
 
             <img src="{card.get('image_url','')}"
@@ -47,7 +57,7 @@ def render_card(card):
                 -webkit-line-clamp:4;
                 -webkit-box-orient:vertical;
             ">
-                {card.get('description','')[:200]}
+                {desc}
             </p>
 
             <div style="
