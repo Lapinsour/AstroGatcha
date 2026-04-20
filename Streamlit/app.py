@@ -31,7 +31,7 @@ def render_card(card):
     color = colors.get(rarity, "#ffffff")
     
     st.badge(card.get("rarity", "common"))
-    st.markdown(card["power"], text_alignment="right")
+    st.header(card["power"], text_alignment="right")
     
     st.image(card["image_url"], use_container_width=True)
     st.subheader(card["title"], text_alignment="center")
