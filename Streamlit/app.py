@@ -31,9 +31,9 @@ def render_card(card):
     color = colors.get(rarity, "#ffffff")
     
     st.badge(card.get("rarity", "common"))
-    st.write(f"⚔ Power: {card.get('power', 'N/A')}")
+    st.write(f"⚔ Power: {card.get('power', 'N/A')}", text_alignment="right")
     st.image(card["image_url"], use_container_width=True)
-    st.subheader(card["title"])
+    st.subheader(card["title"], text_alignment="center")
     st.write(card["description"][:200])
     
 
