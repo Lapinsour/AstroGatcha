@@ -29,6 +29,7 @@ def render_card(card):
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            border: 2px solid {border};
         ">
             <h4 style="text-align:center; margin:5px 0;">
                 {card.get('title','')}
@@ -59,6 +60,7 @@ if st.button("🎴 Pull card"):
     card = r.json()["result"]  
     
     color = colors.get(card["rarity"], "#ffffff")
+    border = colors.get(card.get("rarity"), "#444")
     st.markdown(
     f"""
     <div style="
