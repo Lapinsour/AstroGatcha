@@ -1,10 +1,15 @@
 import json
 import random
 from fastapi import FastAPI
+import os
 
 app = FastAPI()
 
-with open("cards_nasa.json") as f:
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FILE_PATH = os.path.join(BASE_DIR, "cards_nasa.json")
+
+with open(FILE_PATH, "r") as f:
     CARDS = json.load(f)
 
 @app.get("/pull")
