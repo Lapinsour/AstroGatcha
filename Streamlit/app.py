@@ -46,7 +46,7 @@ def render_card(card):
                 {title}
             </h4>
 
-            <img src="{card.get('image_url','')}"
+            <img src="{card['image_url']}"
                  style="width:100%; height:180px; object-fit:cover; border-radius:10px;">
 
             <p style="
