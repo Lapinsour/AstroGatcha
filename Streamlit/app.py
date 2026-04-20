@@ -30,54 +30,10 @@ def render_card(card):
     border = colors.get(rarity, "#444")
     color = colors.get(rarity, "#ffffff")
 
-    st.markdown(
-        f"""
-        <div style="
-            border-radius: 16px;
-            padding: 12px;
-            background: linear-gradient(145deg, #1e1e2f, #2a2a40);
-            box-shadow: 0px 4px 12px rgba(0,0,0,0.35);
-            margin-bottom: 12px;
-            color: white;
-            height: 420px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 2px solid {border};
-        ">
-            <h4 style="text-align:center; margin:5px 0;">
-                {title}
-            </h4>
-
-            <img src="{img_url}"
-                 style="width:100%; height:180px; object-fit:cover; border-radius:10px;">
-
-            <p style="
-                font-size:12px;
-                opacity:0.8;
-                overflow:hidden;
-                display:-webkit-box;
-                -webkit-line-clamp:4;
-                -webkit-box-orient:vertical;
-            ">
-                {desc}
-            </p>
-
-            <div style="
-                text-align:right;
-                background-color:{color};
-                color:black;
-                padding:5px 10px;
-                border-radius:8px;
-                display:inline-block;
-                margin-top:5px;
-            ">
-                {rarity}
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.image(card["image_url"], use_container_width=True)
+st.subheader(card["title"])
+st.write(card["description"][:200])
+st.badge(card.get("rarity", "common"))
 
 
 if st.button("🎴 Pull card"):
