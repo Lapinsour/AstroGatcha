@@ -16,13 +16,8 @@ colors = {
 
 
 
-def render_card(card):
-    title = clean_text(card.get("title", ""))
-    desc = clean_text(card.get("description", ""))[:200]
-    rarity = card.get("rarity", "common")
-
-    img_url = card.get("image_url", "")
-
+def render_card(card):  
+        
     border = colors.get(rarity, "#444")
     color = colors.get(rarity, "#ffffff")
     
