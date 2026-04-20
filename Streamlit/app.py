@@ -40,12 +40,8 @@ cols = st.columns(3)
 
 if st.button("🎴 Pull card"):
     r = requests.get(f"{API_URL}/pull", timeout=30)
-    card = r.json()["result"]
+    card = r.json()["result"]  
     
-    st.image(card["image_url"])
-    st.write(card["title"])
-    st.write(card["description"])
-
     color = colors.get(card["rarity"], "#ffffff")
     st.markdown(
     f"""
@@ -62,5 +58,9 @@ if st.button("🎴 Pull card"):
     """,
     unsafe_allow_html=True
 )
-   
-    st.write(card["power"])
+
+    st.image(card["image_url"])
+    st.write(card["title"])
+    st.write(card["description"])
+    
+    st.header(card["power"], text_alignment="right")
