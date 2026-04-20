@@ -1,4 +1,5 @@
 pymongo
+streamlit
 requests
 pandas
 pillow
