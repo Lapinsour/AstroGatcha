@@ -14,19 +14,28 @@ colors = {
     "legendary": "#FBBF24"
 }
 
-
-
 def render_card(card):  
     rarity = card.get("rarity", "common")        
     border = colors.get(rarity, "#444")
     color = colors.get(rarity, "#ffffff")
-    
-    st.badge(card.get("rarity", "common"))
-    st.header(card["power"], text_alignment="right")
-    
-    st.image(card["image_url"], 100)
-    st.subheader(card["title"], text_alignment="center")
-    st.write(card["description"][:200])
+
+    # badge rarity
+    st.markdown(
+        f"""
+        <div style="
+            display:inline-block;
+            padding:4px 10px;
+            border-radius:8px;
+            background-color:{color};
+            color:black;
+            font-weight:bold;
+            font-size:12px;
+        ">
+            {rarity}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     
 
 
